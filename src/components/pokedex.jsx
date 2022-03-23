@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import pokeball from '../assets/pokeball.png';
 
 // pokemon object
 /*  
@@ -15,6 +16,13 @@ import { useState, useEffect } from "react";
 
 export const Pokedex = () => {
     const [pokemon, setpokemon] = useState([]);
+    const [currentPokemon, setCurrent] = useState({});
+
+    // when user clicks div with pokemon name
+    // set that as the current pokemon
+    const handleClick = (monster) => {
+        setCurrent(monster);
+    }
 
     useEffect( () => {
         // immediately invoked anonymous async arrow function
@@ -25,7 +33,8 @@ export const Pokedex = () => {
                 all of the promises */
                 let urls = []
                 for(let i = 1; i < 152; i++){
-                   urls.push((await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`)).json() )
+                   urls.push(
+                       (await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`)).json() )
                 }
                 Promise.all(urls)
                 .then( response => setpokemon(response) )
@@ -44,13 +53,57 @@ export const Pokedex = () => {
                     Kanto Pokédex
                 </span>
             </div>
-            {
-                !pokemon ? 'no pokemon found' :
-                pokemon.map( monster => 
-                    <img key={monster.id + 'img'}
-                    src={monster.sprites.front_default} />
-                )
-            }
+            <div className="main-bottom">
+                <div className="pokemon-info">
+                    <div className="pokemon-name-banner">
+                        {
+                            currentPokemon ? currentPokemon.name
+                            : ''
+                        }
+                    </div>
+                    {
+                        !Object.hasOwn(currentPokemon, "name") ? ''
+                        : 
+                        <div>
+                            {
+                                <img src={currentPokemon.sprites.front_default}
+                                id="pokemon-image"/>
+                            }
+                            <div className="pokemon-info">
+                                <span>{currentPokemon.height}</span>
+                                <span>{currentPokemon.weight}</span>
+                            </div>
+                        </div> 
+                    }
+                </div>
+
+                <div className="pokemon-list">
+                    <div className="pokemon-list-border"></div>
+                    {
+                        pokemon.map( monster => 
+                            <div key={`${monster.id}/pokemon`}
+                            className='pokemon-list-item'
+                            onClick={ () => handleClick(monster)}>
+
+                                <img src={pokeball} 
+                                className="list-item-pokeball"/>
+                                <span>
+                                    {
+                                        monster.id < 10 ?
+                                        `00${monster.id}` :
+                                        monster.id < 100  ?
+                                        `0${monster.id}`  :
+                                        monster.id
+                                    }
+                                </span>
+                                <span className="pokemon-name">
+                                    {monster.name}
+                                </span>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
         </div>
     );
 }
