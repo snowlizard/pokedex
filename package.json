@@ -4,7 +4,8 @@
   "description": "pokedex",
   "main": "app.jsx",
   "scripts": {
-    "start": "webpack serve --mode development --entry ./src/app.jsx",
+    "start": "node server/index.js",
+    "serve": "webpack serve --mode development --entry ./src/app.jsx",
     "build": "webpack --mode production --entry ./src/app.jsx --output-path ./dist"
   },
   "keywords": [
