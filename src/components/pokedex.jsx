@@ -56,29 +56,55 @@ export const Pokedex = () => {
             <div className="main-bottom">
                 <div className="pokemon-info">
                     <div className="pokemon-name-banner">
-                        {
-                            currentPokemon ? currentPokemon.name
-                            : ''
-                        }
+                        <div className="name-border"></div>
+                        <span id="pokemon-name-inner">                        
+                            <span>
+                                { currentPokemon ? currentPokemon.name : '' }
+                            </span>
+                        </span>
+                        <div className="name-border" ></div>
                     </div>
                     {
                         !Object.hasOwn(currentPokemon, "name") ? ''
                         : 
-                        <div>
-                            {
-                                <img src={currentPokemon.sprites.front_default}
-                                id="pokemon-image"/>
-                            }
-                            <div className="pokemon-info">
-                                <span>{currentPokemon.height}</span>
-                                <span>{currentPokemon.weight}</span>
+                        <div className="pokemon-info-bottom">
+                            <div className="pokemon-image-container">
+                                {
+                                    <img src={currentPokemon.sprites.front_default}
+                                    id="pokemon-image"/>
+                                }
+                            </div>
+                            <div className="pokemon-stats">
+                                <div className="name-border" ></div>
+                                <div className="pokemon-stats-main">
+                                    <div>
+                                        <span>Height: </span>
+                                        <span>{currentPokemon.height * 10}cm</span>
+                                    </div>
+                                    <div>
+                                        <span>Weight: </span>
+                                        <span>{currentPokemon.weight / 10} kg</span>
+                                    </div>
+                                    <div>
+                                        <span>Types: </span>
+                                        {
+                                            currentPokemon.types.map( types => {
+                                                return <span 
+                                                        className="types"
+                                                        key={currentPokemon.id + types.type.name}>
+                                                            {types.type.name}  
+                                                        </span>
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                                <div className="name-border" ></div>
                             </div>
                         </div> 
                     }
                 </div>
 
                 <div className="pokemon-list">
-                    <div className="pokemon-list-border"></div>
                     {
                         pokemon.map( monster => 
                             <div key={`${monster.id}/pokemon`}
