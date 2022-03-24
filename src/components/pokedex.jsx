@@ -106,6 +106,11 @@ export const Pokedex = () => {
 
                 <div className="pokemon-list">
                     {
+                        pokemon.length === 0 ? 
+                        <div id="loading">
+                            <span>Loading. . .</span>
+                        </div> 
+                        :
                         pokemon.map( monster => 
                             <div key={`${monster.id}/pokemon`}
                             className='pokemon-list-item'
